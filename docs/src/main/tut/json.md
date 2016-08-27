@@ -151,6 +151,7 @@ want to be more explicit.
 <!-- For more information about the uri templating, visit [uri]. -->
 
 ```tut:book
+import scala.concurrent.duration._
 import scalaz.concurrent.Task
 
 import org.http4s.util.CaseInsensitiveString.ToCaseInsensitiveStringSyntax
@@ -169,7 +170,7 @@ def repos(org: String): Task[List[Repo]] = {
 }
 
 val http4s = repos("http4s")
-http4s.map(_.map(_.stargazers_count)).run.mkString("\n")
+http4s.map(_.map(_.stargazers_count)).runFor(10.seconds).mkString("\n")
 httpClient.shutdownNow()
 ```
 
